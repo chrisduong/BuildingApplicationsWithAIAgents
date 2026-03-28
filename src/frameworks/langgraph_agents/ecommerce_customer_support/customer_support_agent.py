@@ -11,12 +11,16 @@ import operator
 import builtins
 from typing import Annotated, Sequence, TypedDict, Optional, cast
 
-from langchain_openai.chat_models import ChatOpenAI
-from langchain.schema import AIMessage, BaseMessage, HumanMessage, SystemMessage
-from langchain_core.messages.tool import ToolMessage
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-
-from langchain.tools import tool
+from langchain_anthropic import ChatAnthropic
+from langchain_core.messages import (
+    AIMessage,
+    BaseMessage,
+    HumanMessage,
+    SystemMessage,
+    ToolMessage,
+)
+from langchain_core.callbacks import StreamingStdOutCallbackHandler
+from langchain_core.tools import tool
 from langgraph.graph import StateGraph, END
 
 from traceloop.sdk import Traceloop
@@ -67,11 +71,10 @@ def update_address_for_order(order_id: str, shipping_address: dict) -> str:
 TOOLS = [send_customer_message, issue_refund, cancel_order, update_address_for_order]
 
 Traceloop.init(disable_batch=True, app_name="customer_support_agent")
-llm = ChatOpenAI(
-    model="gpt-4o",
+llm = ChatAnthropic(  # type: ignore[call-arg]
+    model="claude-sonnet-4-6",  # type: ignore[call-arg]
     temperature=0.0,
     callbacks=[StreamingStdOutCallbackHandler()],
-    verbose=True,
 ).bind_tools(TOOLS)
 
 

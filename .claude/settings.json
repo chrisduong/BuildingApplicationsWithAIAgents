@@ -3,7 +3,11 @@
     "allow": [
       "Bash(pip show:*)",
       "Bash(python -c \":*)",
-      "Bash(python -c \"import sys; print\\(sys.executable, sys.version\\)\")"
+      "Bash(python -c \"import sys; print\\(sys.executable, sys.version\\)\")",
+      "Bash(~/.asdf/installs/python/3.11.15/bin/pip index:*)",
+      "Bash(pytest -q tests/frameworks/langgraph_agents/test_langgraph_customer_support_agent.py)",
+      "Skill(keybindings-help)",
+      "Skill(keybindings-help:*)"
     ]
   }
 }

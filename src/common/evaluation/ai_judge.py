@@ -26,7 +26,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Mapping, Optional
+from typing import Any, Dict, List, Mapping, Optional
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
@@ -62,7 +62,7 @@ class AIJudge:
         Mapping metric → (rubric_prompt, requires_reference).
     """
 
-    def __init__(self, *, llm: Optional[ChatOpenAI] = None,
+    def __init__(self, *, llm: Optional[Any] = None,
                  rubrics: Optional[Mapping[str, tuple[str, bool]]] = None):
         self.llm = llm or ChatOpenAI(model="gpt-4o", temperature=0.0)
         self.rubrics: Dict[str, tuple[str, bool]] = dict(rubrics or DEFAULT_RUBRICS)

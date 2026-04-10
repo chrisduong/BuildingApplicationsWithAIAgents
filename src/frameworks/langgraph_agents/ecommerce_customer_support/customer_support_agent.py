@@ -1,15 +1,14 @@
-from __future__ import annotations
-
 """
 customer_support_agent.py
 LangGraph workflow for an e-commerce customer-support agent,
 using LangGraph's built-in tool-calling via @tool decorators.
 """
+from __future__ import annotations
+
 import os
 import json
 import operator
-import builtins
-from typing import Annotated, Sequence, TypedDict, Optional, cast
+from typing import Annotated, Sequence, TypedDict, cast
 
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import (
@@ -21,7 +20,7 @@ from langchain_core.messages import (
 )
 from langchain_core.callbacks import StreamingStdOutCallbackHandler
 from langchain_core.tools import tool
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph
 
 from traceloop.sdk import Traceloop
 from src.common.observability.loki_logger import log_to_loki
@@ -79,7 +78,7 @@ llm = ChatAnthropic(  # type: ignore[call-arg]
 
 
 class AgentState(TypedDict):
-    order: Optional[dict]  # Make order optional
+    order: dict | None  # Make order optional
     messages: Annotated[Sequence[BaseMessage], operator.add]
 
 

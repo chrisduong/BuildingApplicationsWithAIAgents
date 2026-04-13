@@ -1,12 +1,10 @@
 import asyncio
-import json
-import os
 
-from langchain.schema import HumanMessage
-from langchain.tools import Tool
+from langchain_core.messages import HumanMessage
+from langchain_core.tools import BaseTool
 from langchain_mcp_adapters.client import MultiServerMCPClient
 
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph
 from typing import TypedDict, Sequence, Any
 
 class AgentState(TypedDict):
@@ -17,7 +15,7 @@ mcp_client = MultiServerMCPClient(
     {
         "math": {
             "command": "python3",
-            "args": ["src/common/mcp/MCP_weather_server.py"],
+            "args": ["src/common/mcp/MCP_math_server.py"],
             "transport": "stdio",
         },
         "weather": {
@@ -28,7 +26,7 @@ mcp_client = MultiServerMCPClient(
     }
 )
 
-async def get_mcp_tools() -> list[Tool]:
+async def get_mcp_tools() -> list[BaseTool]:
     return await mcp_client.get_tools()
 
 async def call_mcp_tools(state: AgentState) -> dict[str, Any]:

@@ -93,7 +93,10 @@ async def run_weather_query():
     print("Weather answer:", assistant_msg.content)
 
 
+async def main() -> None:
+    await run_math_query()
+    await run_weather_query()
+
+
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(run_math_query())
-    loop.run_until_complete(run_weather_query())
+    asyncio.run(main())
